@@ -11,6 +11,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, \Serializable
 {
+    private $passwordEncoder;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -57,6 +59,7 @@ class User implements UserInterface, \Serializable
     {
         $this->isActive = true;
     }
+
 
     /**
      * @return mixed

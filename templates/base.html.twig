@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="{{ asset('build/css/style.css') }}">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+            <div class="container-fluid">
+            {% block body %}{% endblock %}
+            </div>
+
         {% block javascripts %}{% endblock %}
-    <script src="/build/js/app.js"></script>
+    <script src="{{ asset('build/js/app.js') }}"></script>
     </body>
 </html>
