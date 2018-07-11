@@ -11,7 +11,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, \Serializable
 {
-    private $passwordEncoder;
 
     /**
      * @ORM\Id()

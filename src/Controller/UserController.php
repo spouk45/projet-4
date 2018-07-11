@@ -6,9 +6,11 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends Controller
 {
@@ -36,6 +38,30 @@ class UserController extends Controller
             'user' => $user,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @param AuthenticationUtils $helper
+     * @return Response
+     * @Route("/login", name="security_login")
+     */
+    public function login(AuthenticationUtils $helper): Response
+    {
+
+        return $this->render('Security/login.html.twig', [
+            // dernier username saisi (si il y en a un)
+            'last_username' => $helper->getLastUsername(),
+            // La derniere erreur de connexion (si il y en a une)
+            'error' => $helper->getLastAuthenticationError(),
+        ]);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function logout(): void
+    {
+        throw new \Exception('This should never be reached!');
     }
 
     /**
