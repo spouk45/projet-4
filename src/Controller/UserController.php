@@ -62,6 +62,7 @@ class UserController extends Controller
     }
 
     /**
+     * @Route("/logout", name="security_logout")
      * @throws \Exception
      */
     public function logout(): void
