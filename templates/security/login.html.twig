@@ -13,13 +13,11 @@
                 {% endif %}
             </div>
         {% endif %}
-
-
             <form action="{{ path('security_login') }}" method="post">
                 <fieldset>
                     <div class="form-group">
                         <label for="username">Pseudo</label>
-                        <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control"/>
+                        <input type="text" id="username" name="_username" placeholder="{{ last_username }}" value="{{ last_username }}" class="form-control"/>
                     </div>
                     <div class="form-group">
                         <label for="password">Mot de passe</label>

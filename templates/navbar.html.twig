@@ -19,20 +19,20 @@
     <div class="ml-auto d-flex align-items-center">
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         <div>
-        <ul class="navbar-nav ">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-light mr-3" href="#" id="navbardrop" data-toggle="dropdown">
-                    {{ app.user.fullname }}
-                </a>
-                <div class="dropdown-menu bg-dark">
-                    <a class="dropdown-item text-light bg-dark" href="#">Profil</a>
-                    <a class="dropdown-item text-light bg-dark" href="{{ asset('profil/edit') }}">Edit</a>
-                    <a class="dropdown-item text-light bg-dark" href="#">Link 3</a>
-                </div>
-            </li>
+            <ul class="navbar-nav ">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light mr-3" href="#" id="navbardrop" data-toggle="dropdown">
+                        {{ app.user.fullname }}
+                    </a>
+                    <div class="dropdown-menu bg-dark">
+                        <a class="dropdown-item text-light bg-dark" href="#">Profil</a>
+                        <a class="dropdown-item text-light bg-dark" href="{{ asset('profil/edit') }}">Edit</a>
+                        <a class="dropdown-item text-light bg-dark" href="#">Link 3</a>
+                    </div>
+                </li>
 
 
-        </ul>
+            </ul>
         </div>
         <div>
             <a class="btn btn-sm btn-outline-secondary"
@@ -40,9 +40,14 @@
                 <i class="fas fa-sign-out-alt pr-2"></i>Déconnection
             </a>
             {% else %}
+                <ul class="navbar-nav">
+                    <li>
+                        <a class="nav-link" href="{{ path('registration') }}">S'inscrire</a>
+                    </li>
+                </ul>
                 <a class="btn btn-sm btn-outline-info"
                    href="{{ path('security_login') }}">
-                    <i class="fas fa-sign-in-alt pr-2"></i>Connection
+                    <i class="fas fa-sign-in-alt pr-2"></i>Connexion
                 </a>
             {% endif %}
         </div>
