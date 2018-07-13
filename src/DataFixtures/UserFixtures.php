@@ -1,23 +1,21 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: wilder10
- * Date: 11/07/18
- * Time: 11:56
- */
 
 namespace App\DataFixtures;
 
-use App\Entity\Category;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class AppFixtures extends Fixture
+class UserFixtures extends Fixture
 {
     private $passwordEncoder;
 
+    /**
+     * UserFixtures constructor.
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     */
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->passwordEncoder = $passwordEncoder;
@@ -38,12 +36,6 @@ class AppFixtures extends Fixture
             $this->addReference($username, $user);
         }
 
-        foreach($this->getCategoryData() as $name){
-            $category = new Category();
-            $category->setName($name);
-            $manager->persist($category);
-        }
-
         $manager->flush();
     }
 
@@ -55,16 +47,6 @@ class AppFixtures extends Fixture
             ['Doe', 'Tom ', 'tom_admin', 'kitten', 'tom_admin@symfony.com', ['ROLE_ADMIN']],
             ['Doe', 'John ', 'john_user', 'kitten', 'john_user@symfony.com', ['ROLE_USER']],
             ['admin', 'admin ', 'admin', 'admin', 'admin@symfony.com', ['ROLE_ADMIN']],
-        ];
-    }
-
-    private function getCategoryData(): array
-    {
-        return [
-            'Vehicule',
-            'Objets divers',
-            'Emploi',
-            'Services',
         ];
     }
 }
