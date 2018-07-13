@@ -1,2 +1,31 @@
-
 @import "~bootstrap/scss/bootstrap";
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.banner {
+  height: 400px;
+  background: url("image/dechetterie.jpeg") fixed bottom;
+  background-size: cover;
+}
+
+//.container-fluid{
+//  margin:0;padding:0;
+//}
+
+.search-box {
+
+  .search {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 40px !important;
+    color:white;
+
+    &:focus {
+      background-color: rgba(0, 0, 0, 0.6);;
+    }
+
+  }
+}
+
