@@ -8,6 +8,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -37,6 +38,12 @@ class AppFixtures extends Fixture
             $this->addReference($username, $user);
         }
 
+        foreach($this->getCategoryData() as $name){
+            $category = new Category();
+            $category->setName($name);
+            $manager->persist($category);
+        }
+
         $manager->flush();
     }
 
@@ -48,6 +55,16 @@ class AppFixtures extends Fixture
             ['Doe', 'Tom ', 'tom_admin', 'kitten', 'tom_admin@symfony.com', ['ROLE_ADMIN']],
             ['Doe', 'John ', 'john_user', 'kitten', 'john_user@symfony.com', ['ROLE_USER']],
             ['admin', 'admin ', 'admin', 'admin', 'admin@symfony.com', ['ROLE_ADMIN']],
+        ];
+    }
+
+    private function getCategoryData(): array
+    {
+        return [
+            'Vehicule',
+            'Objets divers',
+            'Emploi',
+            'Services',
         ];
     }
 }
