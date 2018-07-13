@@ -33,16 +33,18 @@ class AdFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getAdData() as [$categoryName, $username, $title, $content, $price, $city, $adress, $dateAdded]) {
+        foreach ($this->getAdData() as
+        [$categoryName, $username, $title, $adContent, $price, $city, $postalCode, $adress, $dateAdded]) {
             $ad = new Ad();
             $category = $manager->getRepository(Category::class)->findOneByName($categoryName);
             $ad->setCategory($category);
             $ad->setTitle($title);
             $user = $manager->getRepository(User::class)->findOneByUsername($username);
             $ad->setUser($user);
-            $ad->setContent($content);
+            $ad->setAdContent($adContent);
             $ad->setPrice($price);
             $ad->setCity($city);
+            $ad->setPostalCode($postalCode);
             $ad->setAdress($adress);
             $ad->setDateAdded($dateAdded);
             $manager->persist($ad);
@@ -55,21 +57,22 @@ class AdFixtures extends Fixture implements DependentFixtureInterface
     {
 
         return [
-            //[$categoryName,$username,$title,$content,$price,$city,$adress,$dateAdded]
+            //[$categoryName,$username,$title,$adContent,$price,$city,$postalCode,$adress,$dateAdded]
             [
                 'Vehicule',
                 'john_user',
                 'R19 light',
                 'Belle vieille R19 de 95 très légère: pas de siège à l\'arrière,
-                 pas de moteur non plus, et pas de plancher. Pour avancer, utiliser vos pieds comme la famille PierreAFeu ,
+                 pas de moteur non plus, et pas de plancher. Pour avancer, 
+                 utiliser vos pieds comme la famille PierreAFeu ,
                  Ne consomme rien et ne polue pas, idéal pour les verts!! Et en plus vous faite du sport. 
                  Je vous conseille tout de même de mettre des chaussures',
                 30000,
                 'Paris',
+                '75000',
                 '5 rue de la déchetterie',
                 new \DateTime(),
             ]
         ];
     }
-
 }

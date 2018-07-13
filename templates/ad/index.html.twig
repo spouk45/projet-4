@@ -8,8 +8,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Title</th>
+                <th>Titre</th>
                 <th>Content</th>
                 <th>Price</th>
                 <th>Adress</th>
@@ -21,9 +20,8 @@
         <tbody>
         {% for ad in ads %}
             <tr>
-                <td>{{ ad.id }}</td>
                 <td>{{ ad.title }}</td>
-                <td>{{ ad.content }}</td>
+                <td>{{ ad.adContent }}</td>
                 <td>{{ ad.price }}</td>
                 <td>{{ ad.adress }}</td>
                 <td>{{ ad.dateAdded ? ad.dateAdded|date('Y-m-d H:i:s') : '' }}</td>

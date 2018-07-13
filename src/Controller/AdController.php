@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Ad;
 use App\Form\AdType;
 use App\Repository\AdRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +26,7 @@ class AdController extends Controller
 
     /**
      * @Route("/new", name="ad_new", methods="GET|POST")
+     * @Security("has_role('ROLE_USER')")
      */
     public function new(Request $request): Response
     {
@@ -34,6 +36,8 @@ class AdController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $ad->setDateAdded(new \DateTime());
+            $ad->setUser($this->getUser());
             $em->persist($ad);
             $em->flush();
 

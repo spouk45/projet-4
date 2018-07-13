@@ -39,5 +39,4 @@ class CategoryFixtures extends Fixture
             'Services',
         ];
     }
-
 }

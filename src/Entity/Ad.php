@@ -32,7 +32,7 @@ class Ad
     /**
      * @ORM\Column(type="text")
      */
-    private $content;
+    private $adContent;
 
     /**
      * @ORM\Column(type="integer")
@@ -65,6 +65,11 @@ class Ad
      */
     private $city;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $postalCode;
+
     public function __construct()
     {
         $this->image = new ArrayCollection();
@@ -95,18 +100,6 @@ class Ad
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(string $content): self
-    {
-        $this->content = $content;
 
         return $this;
     }
@@ -198,6 +191,30 @@ class Ad
     public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getAdContent(): ?string
+    {
+        return $this->adContent;
+    }
+
+    public function setAdContent(string $adContent): self
+    {
+        $this->adContent = $adContent;
+
+        return $this;
+    }
+
+    public function getPostalCode(): ?int
+    {
+        return $this->postalCode;
+    }
+
+    public function setPostalCode(int $postalCode): self
+    {
+        $this->postalCode = $postalCode;
 
         return $this;
     }
