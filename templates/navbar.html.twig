@@ -16,19 +16,33 @@
             <a class="nav-link" href="#">Link 3</a>
         </li>
     </ul>
-    <div class="ml-auto">
-
+    <div class="ml-auto d-flex  ">
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            <span class="text-light h6 mr-3">{{ app.user.fullname }}</span>
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light h6 mr-3" href="#" id="navbardrop" data-toggle="dropdown">
+                    {{ app.user.fullname }}
+                </a>
+                <div class="dropdown-menu bg-dark">
+                    <a class="dropdown-item text-light bg-dark" href="#">Profil</a>
+                    <a class="dropdown-item text-light bg-dark" href="{{ asset('profil/edit') }}">Edit</a>
+                    <a class="dropdown-item text-light bg-dark" href="#">Link 3</a>
+                </div>
+            </li>
+
+
+        </ul>
+        <div>
             <a class="btn btn-sm btn-outline-secondary"
                href="{{ path('security_logout') }}">
-                <i class="fa fa-sign-out pr-2"></i>Déconnection
+                <i class="fas fa-sign-out-alt pr-2"></i>Déconnection
             </a>
-        {% else %}
-            <a class="btn btn-sm btn-outline-info"
-               href="{{ path('security_login') }}">
-                <i class="fa fa-sign-in pr-2"></i>Connection
-            </a>
-        {% endif %}
+            {% else %}
+                <a class="btn btn-sm btn-outline-info"
+                   href="{{ path('security_login') }}">
+                    <i class="fas fa-sign-in-alt pr-2"></i>Connection
+                </a>
+            {% endif %}
+        </div>
     </div>
 </nav>
