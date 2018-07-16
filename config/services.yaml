@@ -6,7 +6,7 @@
 parameters:
     locale: 'fr'
     images_directory: '%kernel.project_dir%/public/uploads/images'
-
+    fixture_image_directory : '%kernel.project_dir%/assets/fixture-img/'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -33,3 +33,7 @@ services:
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%images_directory%'
+
+    App\DataFixtures\AdFixtures:
+            arguments:
+                $fixtureImageDirectory: '%fixture_image_directory%'

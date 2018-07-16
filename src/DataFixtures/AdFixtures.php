@@ -4,23 +4,33 @@ namespace App\DataFixtures;
 
 use App\Entity\Ad;
 use App\Entity\Category;
+use App\Entity\Image;
 use App\Entity\User;
+use App\Service\FileUploader;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AdFixtures extends Fixture implements DependentFixtureInterface
 {
     private $passwordEncoder;
+    private $fileUploader;
+    private $fixtureImageDirectory;
 
     /**
-     * UserFixtures constructor.
+     * AdFixtures constructor.
      * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param FileUploader $fileUploader
+     * @param $fixtureImageDirectory
      */
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, FileUploader $fileUploader,$fixtureImageDirectory)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->fileUploader = $fileUploader;
+        $this->fixtureImageDirectory = $fixtureImageDirectory;
     }
 
     public function getDependencies()
@@ -34,7 +44,7 @@ class AdFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         foreach ($this->getAdData() as
-        [$categoryName, $username, $title, $adContent, $price, $city, $postalCode, $adress, $dateAdded]) {
+        [$categoryName, $username, $title, $adContent, $price, $city, $postalCode, $adress, $dateAdded, $files]) {
             $ad = new Ad();
             $category = $manager->getRepository(Category::class)->findOneByName($categoryName);
             $ad->setCategory($category);
@@ -47,6 +57,16 @@ class AdFixtures extends Fixture implements DependentFixtureInterface
             $ad->setPostalCode($postalCode);
             $ad->setAdress($adress);
             $ad->setDateAdded($dateAdded);
+            if (!empty($files)) {
+                /** @var File|UploadedFile $file */
+                foreach ($files as $file) {
+                    $fileName = $this->fileUploader->upload($file);
+                    $imagesToAdd = new Image();
+                    $imagesToAdd->setName($fileName);
+                    $ad->addImagesLink($imagesToAdd);
+                    $manager->persist($imagesToAdd);
+                }
+            }
             $manager->persist($ad);
         }
 
@@ -55,6 +75,9 @@ class AdFixtures extends Fixture implements DependentFixtureInterface
 
     private function getAdData(): array
     {
+
+        copy($this->fixtureImageDirectory . 'foret1.jpg', $this->fixtureImageDirectory . '01-copy.jpg');
+        $files[] = new File($this->fixtureImageDirectory.'01-copy.jpg');
 
         return [
             //[$categoryName,$username,$title,$adContent,$price,$city,$postalCode,$adress,$dateAdded]
@@ -72,6 +95,7 @@ class AdFixtures extends Fixture implements DependentFixtureInterface
                 '75000',
                 '5 rue de la déchetterie',
                 new \DateTime(),
+                $files,
             ]
         ];
     }

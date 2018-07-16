@@ -25,9 +25,10 @@
                 <td>{{ ad.title }}</td>
                 <td>{{ ad.adContent }}</td>
                 <td>{{ ad.price }}</td>
-                <td>{% if ad.imagesLink is not null %}
-                        {% for image in ad.imagesLink|slice(1) %}
-                        <img class="img-responsive img-fluid" src="{{ images_directory }}{{ image.name }}">
+                <td>
+                    {% if ad.imagesLink is not null %}
+                        {% for image in ad.imagesLink|slice(0,1) %}
+                            <img class="img-responsive img-fluid" src="{{ images_directory }}{{ image.name }}">
                         {% endfor %}
                     {% endif %}</td>
                 <td>{{ ad.adress }}</td>

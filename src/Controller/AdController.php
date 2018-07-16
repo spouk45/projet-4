@@ -42,12 +42,10 @@ class AdController extends Controller
 
             $files = $form->get('images')->getData();
             if (!empty($files)) {
-                $filesName=[];
 
                 /** @var UploadedFile $file */
                 foreach ($files as $file) {
                    $fileName = $fileUploader->upload($file);
-                    $filesName[] =  $fileName;
                     $imagesToAdd = new Image();
                     $imagesToAdd->setName($fileName);
                     $ad->addImagesLink($imagesToAdd);
