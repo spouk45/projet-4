@@ -35,6 +35,10 @@ class AdController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $ad->getImage();
+            dump($file);
+            dump($request);
+            dd($form);
             $em = $this->getDoctrine()->getManager();
             $ad->setDateAdded(new \DateTime());
             $ad->setUser($this->getUser());

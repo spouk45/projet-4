@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Ad;
 use App\Entity\Category;
+use App\Entity\Image;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,15 +25,22 @@ class AdType extends AbstractType
                     'choice_label' => 'name',
                 ]
             )
-            ->add('title', null, ['label'=> 'Titre'])
+            ->add('city', null, ['label' => 'Ville'])
+            ->add('postalCode', null, ['label' => 'Code postal'])
+            ->add('adress', null, ['label' => 'Adresse'])
+            ->add('title', null, ['label' => 'Titre'])
             ->add('adContent', TextareaType::class, [
                 'label' => 'Contenu de l\'annonce',
             ])
-            ->add('price', null, ['label'=>'Prix'])
-            ->add('city', null, ['label'=>'Ville'])
-            ->add('postalCode', null, ['label'=>'Code postal'])
-            ->add('adress', null, ['label'=>'Adresse'])
-            ;
+            ->add('price', null, ['label' => 'Prix'])
+            ->add('images', FileType::class,
+                [
+                    'mapped' => false,
+                    'multiple' => true,
+                    'data_class' => Image::class,
+                    'label' => 'Images',
+                    'required'=>false,
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -1,6 +1,28 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <div class="text-center">
-        <button class="btn btn-primary">{{ button_label|default('Valider') }}</button>
+
+<div class="mb-5">
+    <h3>Annonce : </h3>
+    {{ form_row(form.category) }}
+    <div class="row">
+        <div class="col-md-6"> {{ form_row(form.title) }} </div>
+        <div class="col-md-6">{{ form_row(form.price) }} </div>
+
+
     </div>
+    {{ form_row(form.adContent) }}
+    <div class="row">
+        <div class="col-12">{{ form_row(form.images) }}  </div>
+    </div>
+</div>
+<div class="">
+    <h3>Adresse : </h3>
+    {{ form_row(form.city) }}
+    {{ form_row(form.postalCode) }}
+    {{ form_row(form.adress) }}
+
+</div>
+{{ form_widget(form) }}
+<div class="text-center">
+    <button class="btn btn-primary">{{ button_label|default('Valider') }}</button>
+</div>
 {{ form_end(form) }}
