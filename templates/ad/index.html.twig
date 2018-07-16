@@ -8,15 +8,16 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Titre</th>
-                <th>Content</th>
-                <th>Price</th>
-                <th>Adress</th>
-                <th>DateAdded</th>
-                <th>City</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Titre</th>
+            <th>Content</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Adress</th>
+            <th>DateAdded</th>
+            <th>City</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for ad in ads %}
@@ -24,6 +25,11 @@
                 <td>{{ ad.title }}</td>
                 <td>{{ ad.adContent }}</td>
                 <td>{{ ad.price }}</td>
+                <td>{% if ad.imagesLink is not null %}
+                        {% for image in ad.imagesLink|slice(1) %}
+                        <img class="img-responsive img-fluid" src="{{ images_directory }}{{ image.name }}">
+                        {% endfor %}
+                    {% endif %}</td>
                 <td>{{ ad.adress }}</td>
                 <td>{{ ad.dateAdded ? ad.dateAdded|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ ad.city }}</td>

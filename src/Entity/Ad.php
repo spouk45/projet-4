@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AdRepository")
@@ -56,9 +58,14 @@ class Ad
     private $dateAdded;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="ad")
+     * not mapped
+     * @Assert\File(
+     *     maxSize = "2M",
+     *     mimeTypes = {"image/jpeg", "image/png" ,"image/gif"},
+     * )
      */
-    private $image;
+    private $images;
+
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -70,9 +77,14 @@ class Ad
      */
     private $postalCode;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="ad")
+     */
+    private $imagesLink;
+
     public function __construct()
     {
-        $this->image = new ArrayCollection();
+        $this->imagesLink = new ArrayCollection();
     }
 
     public function getId()
@@ -152,37 +164,6 @@ class Ad
         return $this;
     }
 
-    /**
-     * @return Collection|Image[]
-     */
-    public function getImage(): Collection
-    {
-        return $this->image;
-    }
-
-    public function addImage(Image $image): self
-    {
-        if (!$this->image->contains($image)) {
-            $this->image[] = $image;
-            $image->setAd($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(Image $image): self
-    {
-        if ($this->image->contains($image)) {
-            $this->image->removeElement($image);
-            // set the owning side to null (unless already changed)
-            if ($image->getAd() === $this) {
-                $image->setAd(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getCity(): ?string
     {
         return $this->city;
@@ -218,4 +199,50 @@ class Ad
 
         return $this;
     }
+
+
+    /**
+     * @return Collection|Image[]
+     */
+    public function getImagesLink(): Collection
+    {
+        return $this->imagesLink;
+    }
+
+    public function addImagesLink(Image $imagesLink): self
+    {
+        if (!$this->imagesLink->contains($imagesLink)) {
+            $this->imagesLink[] = $imagesLink;
+            $imagesLink->setAd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImagesLink(Image $imagesLink): self
+    {
+        if ($this->imagesLink->contains($imagesLink)) {
+            $this->imagesLink->removeElement($imagesLink);
+            // set the owning side to null (unless already changed)
+            if ($imagesLink->getAd() === $this) {
+                $imagesLink->setAd(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getImages(): ?array
+    {
+        return $this->images;
+    }
+
+    public function setImages(array $images): self
+    {
+        $this->images = $images;
+
+        return $this;
+    }
+
+
 }

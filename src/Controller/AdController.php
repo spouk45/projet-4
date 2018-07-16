@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Entity\Image;
 use App\Form\AdType;
 use App\Repository\AdRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,11 +37,27 @@ class AdController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $file = $ad->getImage();
-            dump($file);
-            dump($request);
-            dd($form);
             $em = $this->getDoctrine()->getManager();
+
+//            $files = $ad->getImages();
+            $files = $form->get('images')->getData();
+            if (!empty($files)) {
+                $filesName=[];
+
+                /** @var UploadedFile $file */
+                foreach ($files as $file) {
+                    $fileName = uniqid() . '.' . $file->guessExtension();
+                    $file->move(
+                        $this->getParameter('images_directory'),
+                        $fileName
+                    );
+                    $filesName[] = $fileName;
+                    $imagesToAdd = new Image();
+                    $imagesToAdd->setName($fileName);
+                    $ad->addImagesLink($imagesToAdd);
+                    $em->persist($imagesToAdd);
+                }
+            }
             $ad->setDateAdded(new \DateTime());
             $ad->setUser($this->getUser());
             $em->persist($ad);
@@ -87,7 +105,7 @@ class AdController extends Controller
      */
     public function delete(Request $request, Ad $ad): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$ad->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $ad->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($ad);
             $em->flush();
@@ -95,4 +113,5 @@ class AdController extends Controller
 
         return $this->redirectToRoute('ad_index');
     }
+
 }

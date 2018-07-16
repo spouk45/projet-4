@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Ad;
 use App\Entity\Category;
-use App\Entity\Image;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -35,12 +34,12 @@ class AdType extends AbstractType
             ->add('price', null, ['label' => 'Prix'])
             ->add('images', FileType::class,
                 [
-                    'mapped' => false,
-                    'multiple' => true,
-                    'data_class' => Image::class,
                     'label' => 'Images',
                     'required'=>false,
-                ]);
+                    'multiple' => true,
+                    'mapped'=>false,
+                ])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -19,10 +19,10 @@ class Image
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $link;
+    private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Ad", inversedBy="image")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Ad", inversedBy="imagesLink")
      */
     private $ad;
 
@@ -31,14 +31,14 @@ class Image
         return $this->id;
     }
 
-    public function getLink(): ?string
+    public function getName(): ?string
     {
-        return $this->link;
+        return $this->name;
     }
 
-    public function setLink(string $link): self
+    public function setName(string $name): self
     {
-        $this->link = $link;
+        $this->name = $name;
 
         return $this;
     }
