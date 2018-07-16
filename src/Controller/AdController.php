@@ -6,6 +6,7 @@ use App\Entity\Ad;
 use App\Entity\Image;
 use App\Form\AdType;
 use App\Repository\AdRepository;
+use App\Service\FileUploader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -30,7 +31,7 @@ class AdController extends Controller
      * @Route("/new", name="ad_new", methods="GET|POST")
      * @Security("has_role('ROLE_USER')")
      */
-    public function new(Request $request): Response
+    public function new(Request $request,FileUploader $fileUploader): Response
     {
         $ad = new Ad();
         $form = $this->createForm(AdType::class, $ad);
@@ -39,19 +40,14 @@ class AdController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-//            $files = $ad->getImages();
             $files = $form->get('images')->getData();
             if (!empty($files)) {
                 $filesName=[];
 
                 /** @var UploadedFile $file */
                 foreach ($files as $file) {
-                    $fileName = uniqid() . '.' . $file->guessExtension();
-                    $file->move(
-                        $this->getParameter('images_directory'),
-                        $fileName
-                    );
-                    $filesName[] = $fileName;
+                   $fileName = $fileUploader->upload($file);
+                    $filesName[] =  $fileName;
                     $imagesToAdd = new Image();
                     $imagesToAdd->setName($fileName);
                     $ad->addImagesLink($imagesToAdd);
